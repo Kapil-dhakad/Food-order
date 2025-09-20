@@ -36,6 +36,7 @@ async function registerUser(req, res) {
         return res.status(201).json({
             success: true,
             message: "User registered successfully",
+            token,
             user: { id: user._id, name: user.name, email: user.email }
         })
 
@@ -49,6 +50,7 @@ async function registerUser(req, res) {
 }
 
 async function loginUser(req, res) {
+
     try {
         const { email, password } = req.body
 
@@ -74,13 +76,20 @@ async function loginUser(req, res) {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
             expiresIn: "7d"
         })
+        
 
         // set cookie
-        res.cookie("token", token)
+        res.cookie("token", token,{
+              secure: false
+        })
+        console.log("cookie",res.cookie);
+        
+
 
         return res.status(200).json({
             success: true,
             message: "User logged in successfully",
+            token,
             user: { id: user._id, name: user.name, email: user.email }
         })
 
