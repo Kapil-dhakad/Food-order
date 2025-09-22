@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const PlaceOrder = () => {
 
-  const {getTotalCartAmount, token, food_list, cartItems, url} = useContext(StoreContext);
+  const {getTotalCartAmount, food_list, cartItems, url} = useContext(StoreContext);
   const [data, setData] = useState({
     firstName:"",
     lastName:"",
@@ -37,7 +37,7 @@ export const PlaceOrder = () => {
     const orderData = {
       address: data,
       items: orderItems,
-      amount:getTotalCartAmount()+2,
+      amount:getTotalCartAmount()+50,
 
     }
     const response = await axios.post(`${url}/api/order/place`, orderData, { withCredentials: true })
@@ -80,12 +80,12 @@ export const PlaceOrder = () => {
             <hr />
             <div className='cart-total-details'>
             <p>Delivery Fee</p>
-            <p>${getTotalCartAmount()===0?0:2}</p>
+            <p>${getTotalCartAmount()===0?0:50}</p>
             </div>
             <hr />
             <div className='cart-total-details'>
             <b>Total</b>
-            <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+2}</b>
+            <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+50}</b>
             </div>
           </div>
           <button type='submit'>PROCEED TO PAYMENT</button>

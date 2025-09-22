@@ -40,6 +40,12 @@
     background-color: grey;
     border: none;
 }
+
+.footer-content-center .footer-content-right .footer-social-icons .footer-copyright:hover{
+    color: tomato;
+}
+
+
 @media (max-width:750px) {
     .footer-content{
         display: flex;

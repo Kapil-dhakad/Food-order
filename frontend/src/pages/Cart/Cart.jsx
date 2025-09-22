@@ -25,7 +25,7 @@ const Cart = () => {
           if(cartItems[item._id]>0)
           {
             return(
-              <div>
+              <div key={index}>
               <div className='cart-items-title cart-items-item'>
                 <img src={item.image} alt='' />
                 <p>{item.name}</p>
@@ -52,12 +52,12 @@ const Cart = () => {
             <hr />
             <div className='cart-total-details'>
             <p>Delivery Fee</p>
-            <p>${getTotalCartAmount()===0?0:2}</p>
+            <p>${getTotalCartAmount()===0?0:50}</p>
             </div>
             <hr />
             <div className='cart-total-details'>
             <b>Total</b>
-            <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+2}</b>
+            <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+50}</b>
             </div>
           </div>
           <button onClick={()=>navigate('/order')}>PROCEED TO CHEKOUT</button>

@@ -31,7 +31,7 @@ async function placeOrder(req, res) {
                 product_data: {
                     name: "Delivery charges"
                 },
-                unit_amount: 2 * 100
+                unit_amount: 50 * 100
             },
             quantity: 1
         })
@@ -39,10 +39,11 @@ async function placeOrder(req, res) {
         const session = await stripe.checkout.sessions.create({
             line_items: line_items,
             mode: 'payment',
-            success_url: `${frontend_url}/verify?success:true&orderId=${order._id}`,
-            cancel_url: `${frontend_url}/verify?success:false&orderId=${order._id}`,
+            success_url: `${frontend_url}/verify?success=true&orderId=${order._id}`,
+            cancel_url: `${frontend_url}/verify?success=false&orderId=${order._id}`,
 
         })
+        
         res.status(200).json({
             success: true,
             session_url: session.url
@@ -58,6 +59,7 @@ async function placeOrder(req, res) {
 
 async function veriyOrder(req, res){
     const {orderId, success} = req.body;
+    console.log(success)
     try {
         if(success=="true"){
             await orderModel.findByIdAndUpdate(orderId, {payment: true});
