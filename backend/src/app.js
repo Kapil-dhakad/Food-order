@@ -10,9 +10,10 @@ const orderRouter = require('./routes/order.route');
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173",  // frontend origin
+    origin: ["http://localhost:5173","http://localhost:5174" ],  // frontend origin
     credentials: true
 }));
+
 app.use(express.json())
 
 app.use(cookieParser())

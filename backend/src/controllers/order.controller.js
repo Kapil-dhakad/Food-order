@@ -43,7 +43,7 @@ async function placeOrder(req, res) {
             cancel_url: `${frontend_url}/verify?success=false&orderId=${order._id}`,
 
         })
-        
+
         res.status(200).json({
             success: true,
             session_url: session.url
@@ -57,28 +57,67 @@ async function placeOrder(req, res) {
     }
 }
 
-async function veriyOrder(req, res){
-    const {orderId, success} = req.body;
-    console.log(success)
+async function verifyOrder(req, res) {
+    const { orderId, success } = req.body;
+
     try {
-        if(success=="true"){
-            await orderModel.findByIdAndUpdate(orderId, {payment: true});
-            res.status(200).json({success:true, message:"paid"})
-        }else{
+        if (success === "true") {
+            const order = await orderModel.findByIdAndUpdate(
+                orderId,
+                { payment: true },
+                { new: true } // updated document return karega
+            );
+
+            return res.status(200).json({ success: true, message: "paid", order });
+        } else {
             await orderModel.findByIdAndDelete(orderId);
-            res.status(200).json({success:false, message:"payment failed"})
+            return res.status(200).json({ success: false, message: "payment failed" });
         }
     } catch (error) {
         console.error("Stripe verifyOrder error:", error);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            message: "Error"
+            message: "Error",
         });
-        
     }
 }
 
+async function userOrders(req, res) {
+
+    try {
+        const orders = await orderModel.find({userId: req.userId});
+        res.status(200).json({success: true, orders})
+    } catch (error) {
+        res.status(500).json({success: false, message: "Error"})
+    }
+}
+
+//Listing orders for admin panel
+async function listOrders(req, res){
+    try {
+        const orders = await orderModel.find();
+        res.status(200).json({success: true, data:orders})
+    } catch (error) {
+        res.status(500).json({success: false, message: "Error"})
+    }
+}
+
+//api for updating order status
+async function updateStatus(req, res){
+    try {
+        await orderModel.findByIdAndUpdate(req.body.orderId, {status: req.body.status})
+        res.status(200).json({success: true, message: "Status updated"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success: false, message: "Error"})
+    }
+}
+    
+
 module.exports = {
-     placeOrder,
-     veriyOrder
-     }
+    placeOrder,
+    verifyOrder,
+    userOrders,
+    listOrders,
+    updateStatus
+}

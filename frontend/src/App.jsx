@@ -9,6 +9,7 @@ import LoginPopup from './components/LoginPopup/LoginPopup';
 import Verify from './pages/verify/Verify';
 import StoreContextProvider from './context/StoreContext';
 import axios from 'axios';
+import MyOrders from './pages/MyOrders/MyOrders';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -24,6 +25,7 @@ const App = () => {
           <Route path='/cart' element={<Cart />} />
           <Route path='/order' element={<PlaceOrder />} />
           <Route path='/verify' element={<Verify />} />
+          <Route path='/myorders' element={<MyOrders/>}/>
         </Routes>
       </div>
       <Footer />
