@@ -4,6 +4,9 @@ const userModel = require('../models/user.model');
 async function addToCart(req, res) {
      try {
         const userData = await userModel.findById(req.userId);
+        if (!userData) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
         const cartData = userData.cartData;
         if(!cartData[req.body.itemId]) {
             cartData[req.body.itemId] = 1;
