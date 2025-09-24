@@ -33,11 +33,12 @@ app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
 // 🟢 Serve Frontend (user app)
+// 🟢 Serve Frontend (user app)
 app.use(
   "/frontend",
   express.static(path.join(__dirname, "../public/frontend"))
 );
-app.get("/frontend/*", (req, res) => {
+app.get(/^\/frontend(\/.*)?$/, (req, res) => {
   res.sendFile(path.join(__dirname, "../public/frontend/index.html"));
 });
 
@@ -46,7 +47,7 @@ app.use(
   "/admin",
   express.static(path.join(__dirname, "../public/admin"))
 );
-app.get("/admin/*", (req, res) => {
+app.get(/^\/admin(\/.*)?$/, (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/index.html"));
 });
 
