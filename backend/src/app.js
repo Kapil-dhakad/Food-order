@@ -25,21 +25,20 @@ app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
 // Serve Frontend
-app.use("/frontend", express.static(path.join(__dirname, "public/frontend")));
+app.use("/frontend", express.static(path.join(__dirname, "../public/frontend")));
 app.get(/^\/frontend(\/.*)?$/, (req, res) => {
-  res.sendFile(path.join(__dirname, "public/frontend/index.html"));
+  res.sendFile(path.join(__dirname, "../public/frontend/index.html"));
 });
 
 // Serve Admin
-app.use("/admin", express.static(path.join(__dirname, "public/admin")));
+app.use("/admin", express.static(path.join(__dirname, "../public/admin")));
 app.get(/^\/admin(\/.*)?$/, (req, res) => {
-  res.sendFile(path.join(__dirname, "public/admin/index.html"));
+  res.sendFile(path.join(__dirname, "../public/admin/index.html"));
 });
 
-// 🔹 Add this at the very end of app.js
-// Root route -> open frontend on "/"
+// Root redirect -> frontend
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/frontend/index.html"));
+  res.sendFile(path.join(__dirname, "../public/frontend/index.html"));
 });
 
 module.exports = app;
